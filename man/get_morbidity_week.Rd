@@ -7,10 +7,10 @@
 get_morbidity_week(date)
 }
 \arguments{
-\item{date}{the date which we get the morbidity week for}
+\item{date}{The date which we get the morbidity week for}
 }
 \value{
-Integer of morbidity week
+Morbidity of date in integer form
 }
 \description{
 Gets morbidity week of a given date.

@@ -1,8 +1,8 @@
 #' Gets morbidity week of a given date.
 #'
-#' @param date the date which we get the morbidity week for
+#' @param date The date which we get the morbidity week for
 #'
-#' @returns Integer of morbidity week
+#' @returns Morbidity of date in integer form
 #'
 #' @import dplyr
 #' @import lubridate
