@@ -1,5 +1,3 @@
-utils::globalVariables(c('col_date', 'col_integer', 'cols', 'end', 'select', 'start', 'to_get', 'week', 'year'))
-
 #' Gets morbidity week of a given date.
 #'
 #' @param date the date which we get the morbidity week for
