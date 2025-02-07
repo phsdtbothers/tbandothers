@@ -1,12 +1,17 @@
-utils::globalVariables(c('%>%', 'col_date', 'col_integer', 'cols', 'end', 'select', 'start', 'to_get', 'week', 'year'))
+utils::globalVariables(c('col_date', 'col_integer', 'cols', 'end', 'select', 'start', 'to_get', 'week', 'year'))
 
 #' Gets morbidity week of a given date.
 #'
 #' @param date the date which we get the morbidity week for
 #'
 #' @returns Integer of morbidity week
-#' @export
 #'
+#' @importFrom readr read_csv
+#' @importFrom dplyr filter
+#' @importFrom lubridate year
+#' @import magrittr
+#'
+#' @export
 get_morbidity_week <- function(date) {
   from_date <- as.Date(date)
 
