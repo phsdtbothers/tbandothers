@@ -19,11 +19,11 @@ get_morbidity_week <- function(date) {
   morbidity_weeks <- system.file('extdata', 'morbidity_weeks.csv', package='tbandothers') %>%
     readr::read_csv(
       show_col_types=FALSE,
-      col_types = cols(
-         year = col_integer(),
-         week = col_integer(),
-         start = col_date(format='%m/%d/%Y'),
-         end = col_date(format='%m/%d/%Y')
+      col_types = readr::cols(
+         year = readr::col_integer(),
+         week = readr::col_integer(),
+         start = readr::col_date(format='%m/%d/%Y'),
+         end = readr::col_date(format='%m/%d/%Y')
       )
     )
 
