@@ -6,9 +6,9 @@ utils::globalVariables(c('col_date', 'col_integer', 'cols', 'end', 'select', 'st
 #'
 #' @returns Integer of morbidity week
 #'
-#' @importFrom readr read_csv
-#' @importFrom dplyr filter
-#' @importFrom lubridate year
+#' @import dplyr
+#' @import lubridate
+#' @import readr
 #' @import magrittr
 #'
 #' @export
