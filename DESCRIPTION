@@ -11,5 +11,8 @@ RoxygenNote: 7.3.2
 Imports: 
     dplyr,
     lubridate,
+<<<<<<< HEAD
     magrittr,
+=======
+>>>>>>> 57ae501d4114a3143c45b110e86f5b3de0cabed7
     readr
