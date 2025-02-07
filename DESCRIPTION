@@ -1,6 +1,6 @@
-Package: TB and Others
-Title: Helper functions for TB and Others disease group. 
-Version: 0.0.1
+Package: tbandothers
+Title: TB and Others Helper Package
+Version: 0.0.0.9000
 Authors@R: 
     person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
@@ -9,4 +9,4 @@ License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-Imports:
+
