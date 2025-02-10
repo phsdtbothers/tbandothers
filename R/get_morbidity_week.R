@@ -21,8 +21,8 @@ get_morbidity_week <- function(date) {
   from_dates <- data.frame(dates=as.Date(date))
 
   from_dates <- from_dates %>%
-    rowwise() %>%
-    mutate(week = morbidity_weeks$week[which(morbidity_weeks$start <= dates & dates <= morbidity_weeks$end)][1])
+    dplyr::rowwise() %>%
+    dplyr::mutate(week = morbidity_weeks$week[which(morbidity_weeks$start <= dates & dates <= morbidity_weeks$end)][1])
 
   # if single item, return integer only
   if (length(from_dates) == 1) return(from_dates[1, week])
