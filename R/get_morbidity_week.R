@@ -1,11 +1,10 @@
-#' Gets morbidity week of a given date.
+#' Gets morbidity week of either a single date, or a vector of dates.
 #'
-#' @param date The date which we get the morbidity week for
+#' @param date A single date, or vector of dates which we get the morbidity week/s for.
 #'
-#' @returns Morbidity of date in integer form
+#' @returns If single date, then integer of morbidity week of said date. If vector of dates, then vector of morbidity weeks of said dates.
 #'
 #' @import dplyr
-#' @import lubridate
 #' @import magrittr
 #' @import googlesheets4
 #'
@@ -18,15 +17,14 @@ get_morbidity_week <- function(date) {
 
   morbidity_weeks <- googlesheets4::read_sheet('1lTwxbm96nTffaM0WG77lhpNcqDBlLDQJ3CfQFrWuAmE')
 
-  from_date <- as.Date(date)
+  # get week number from date/dates
+  from_dates <- data.frame(dates=as.Date(date))
 
-  morbidity_weeks$to_get <- from_date
+  from_dates <- from_dates %>%
+    rowwise() %>%
+    mutate(week = morbidity_weeks$week[which(morbidity_weeks$start <= dates & dates <= morbidity_weeks$end)][1])
 
-  result <- morbidity_weeks %>%
-    dplyr::filter(year == lubridate::year(from_date)) %>%
-    dplyr::filter(start <= to_get & to_get <= end) %>%
-    select(week)
-
-  if (nrow(result) > 0) return(result$week)
-  else return(NA)
+  # if single item, return integer only
+  if (length(from_dates) == 1) return(from_dates[1, week])
+  else return(from_dates$week)
 }

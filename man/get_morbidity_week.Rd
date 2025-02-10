@@ -2,16 +2,16 @@
 % Please edit documentation in R/get_morbidity_week.R
 \name{get_morbidity_week}
 \alias{get_morbidity_week}
-\title{Gets morbidity week of a given date.}
+\title{Gets morbidity week of either a single date, or a vector of dates.}
 \usage{
 get_morbidity_week(date)
 }
 \arguments{
-\item{date}{The date which we get the morbidity week for}
+\item{date}{A single date, or vector of dates which we get the morbidity week/s for.}
 }
 \value{
-Morbidity of date in integer form
+If single date, then integer of morbidity week of said date. If vector of dates, then vector of morbidity weeks of said dates.
 }
 \description{
-Gets morbidity week of a given date.
+Gets morbidity week of either a single date, or a vector of dates.
 }

@@ -3,5 +3,4 @@
 export(get_morbidity_week)
 import(dplyr)
 import(googlesheets4)
-import(lubridate)
 import(magrittr)
