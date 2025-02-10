@@ -15,7 +15,7 @@ get_morbidity_week <- function(date) {
     googlesheets4::gs4_auth(scopes='https://www.googleapis.com/auth/spreadsheets.readonly')
   }
 
-  morbidity_weeks <- googlesheets4::read_sheet('1lTwxbm96nTffaM0WG77lhpNcqDBlLDQJ3CfQFrWuAmE', col_types = c('numeric','numeric','date','date'))
+  morbidity_weeks <- googlesheets4::read_sheet('1lTwxbm96nTffaM0WG77lhpNcqDBlLDQJ3CfQFrWuAmE')
 
   # get week number from date/dates
   from_dates <- data.frame(dates=as.Date(date))
