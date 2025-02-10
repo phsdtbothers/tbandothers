@@ -6,24 +6,19 @@
 #'
 #' @import dplyr
 #' @import lubridate
-#' @import readr
 #' @import magrittr
+#' @import googlesheets4
 #'
 #' @export
 get_morbidity_week <- function(date) {
-  from_date <- as.Date(date)
+  # authorize and read function
+  if (!googlesheets4::gs4_has_token()) {
+    googlesheets4::gs4_auth(scopes='https://www.googleapis.com/auth/spreadsheets.readonly')
+  }
 
-  # reads morbidity_weeks.csv, which contains all dates for morbidity weeks
-  morbidity_weeks <- system.file('extdata', 'morbidity_weeks.csv', package='tbandothers') %>%
-    readr::read_csv(
-      show_col_types=FALSE,
-      col_types = readr::cols(
-         year = readr::col_integer(),
-         week = readr::col_integer(),
-         start = readr::col_date(format='%m/%d/%Y'),
-         end = readr::col_date(format='%m/%d/%Y')
-      )
-    )
+  morbidity_weeks <- googlesheets4::read_sheet('1lTwxbm96nTffaM0WG77lhpNcqDBlLDQJ3CfQFrWuAmE')
+
+  from_date <- as.Date(date)
 
   morbidity_weeks$to_get <- from_date
 
