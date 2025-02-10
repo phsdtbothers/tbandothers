@@ -20,8 +20,8 @@ get_morbidity_week <- function(date) {
   morbidity_weeks <- morbidity_weeks %>% mutate(
     year = as.numeric(year),
     week = as.numeric(week),
-    start = as.date(start),
-    end = as.date(end)
+    start = as.Date(start),
+    end = as.Date(end)
   )
 
   # get week number from date/dates
