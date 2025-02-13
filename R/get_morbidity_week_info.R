@@ -6,23 +6,13 @@
 #' @param from_year Optional. Year for what morbidity week calendar to use. If not given, then the current year is used.
 #'
 #' @import lubridate
+#' @import magrittr
 #'
 #' @returns A tibble. This can be then used to call for specific morbidity week info using dplyr::pull()
 #' @export
 get_morbidity_week_info <- function(week_number, from_year=NULL) {
   # authorize and read google sheet
-  if (!googlesheets4::gs4_has_token()) {
-    googlesheets4::gs4_auth(scopes='https://www.googleapis.com/auth/spreadsheets.readonly')
-  }
-
-  morbidity_weeks <- googlesheets4::read_sheet('1lTwxbm96nTffaM0WG77lhpNcqDBlLDQJ3CfQFrWuAmE', sheet='morbidity_weeks')
-
-  morbidity_weeks <- morbidity_weeks %>% mutate(
-    year = as.numeric(year),
-    week = as.numeric(week),
-    start = as.Date(start),
-    end = as.Date(end)
-  )
+  morbidity_weeks <- tbandothers::read_morbidity_weeks()
 
   # if from_year is not given, then the current year is used
   if (is.null(from_year)) {

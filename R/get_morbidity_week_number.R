@@ -6,23 +6,11 @@
 #'
 #' @import dplyr
 #' @import magrittr
-#' @import googlesheets4
 #'
 #' @export
 get_morbidity_week_number <- function(dates) {
   # authorize and read google sheet
-  if (!googlesheets4::gs4_has_token()) {
-    googlesheets4::gs4_auth(scopes='https://www.googleapis.com/auth/spreadsheets.readonly')
-  }
-
-  morbidity_weeks <- googlesheets4::read_sheet('1lTwxbm96nTffaM0WG77lhpNcqDBlLDQJ3CfQFrWuAmE', sheet_name='morbidity_weeks')
-
-  morbidity_weeks <- morbidity_weeks %>% mutate(
-    year = as.numeric(year),
-    week = as.numeric(week),
-    start = as.Date(start),
-    end = as.Date(end)
-  )
+  morbidity_weeks <- tbandothers::read_morbidity_weeks()
 
   # get week number from date/dates
   from_dates <- data.frame(dates=as.Date(dates))
