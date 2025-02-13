@@ -10,7 +10,7 @@
 #' @export
 get_morbidity_week_number <- function(dates) {
   # authorize and read google sheet
-  morbidity_weeks <- tbandothers::read_morbidity_weeks()
+  # morbidity_weeks <- tbandothers::read_morbidity_weeks()
 
   # get week number from date/dates
   from_dates <- data.frame(dates=as.Date(dates))
