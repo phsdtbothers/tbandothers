@@ -1,5 +1,7 @@
 #' Gets the morbidity weeks of a date or dates adjusted to a provided year.
 #'
+#' Gets the morbidity weeks of a date or dates adjusted from a provided year's morbidity week calendar.
+#'
 #' @param dates Either a date or a vector of dates.
 #' @param to_year The year that the years are based on.
 #'

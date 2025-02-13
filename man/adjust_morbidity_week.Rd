@@ -2,7 +2,7 @@
 % Please edit documentation in R/adjust_morbidity_week.R
 \name{adjust_morbidity_week}
 \alias{adjust_morbidity_week}
-\title{gets the morbidity weeks of date or dates adjusted to a provided year.}
+\title{Gets the morbidity weeks of a date or dates adjusted to a provided year.}
 \usage{
 adjust_morbidity_week(dates, to_year)
 }
@@ -15,5 +15,5 @@ adjust_morbidity_week(dates, to_year)
 A vector of morbidity weeks adjusted to provided year.
 }
 \description{
-gets the morbidity weeks of date or dates adjusted to a provided year.
+Gets the morbidity weeks of a date or dates adjusted from a provided year's morbidity week calendar.
 }
