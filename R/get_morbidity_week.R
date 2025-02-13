@@ -1,6 +1,6 @@
 #' Gets morbidity week of either a single date, or a vector of dates.
 #'
-#' @param date A single date, or vector of dates which we get the morbidity week/s for.
+#' @param dates A single date, or vector of dates which we get the morbidity week/s for.
 #'
 #' @returns If single date, then integer of morbidity week of said date. If vector of dates, then vector of morbidity weeks of said dates.
 #'
@@ -9,7 +9,7 @@
 #' @import googlesheets4
 #'
 #' @export
-get_morbidity_week <- function(date) {
+get_morbidity_week <- function(dates) {
   # authorize and read function
   if (!googlesheets4::gs4_has_token()) {
     googlesheets4::gs4_auth(scopes='https://www.googleapis.com/auth/spreadsheets.readonly')
@@ -25,7 +25,7 @@ get_morbidity_week <- function(date) {
   )
 
   # get week number from date/dates
-  from_dates <- data.frame(dates=as.Date(date))
+  from_dates <- data.frame(dates=as.Date(dates))
 
   from_dates <- from_dates %>%
     dplyr::rowwise() %>%

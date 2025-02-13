@@ -4,10 +4,10 @@
 \alias{get_morbidity_week}
 \title{Gets morbidity week of either a single date, or a vector of dates.}
 \usage{
-get_morbidity_week(date)
+get_morbidity_week(dates)
 }
 \arguments{
-\item{date}{A single date, or vector of dates which we get the morbidity week/s for.}
+\item{dates}{A single date, or vector of dates which we get the morbidity week/s for.}
 }
 \value{
 If single date, then integer of morbidity week of said date. If vector of dates, then vector of morbidity weeks of said dates.
