@@ -10,7 +10,7 @@
 #'
 #' @export
 get_morbidity_week_number <- function(dates) {
-  # authorize and read sheet
+  # authorize and read google sheet
   if (!googlesheets4::gs4_has_token()) {
     googlesheets4::gs4_auth(scopes='https://www.googleapis.com/auth/spreadsheets.readonly')
   }
