@@ -12,7 +12,7 @@ get_global_dates <- function(run_date=Sys.Date()) {
   global_dates <- data.frame(run_date=run_date)
 
   # generate info for current week
-  this_week <- tbandothers::get_morbidity_week_number(as.Date(from_date)) %>% tbandothers::get_morbidity_week_info(from_year=lubridate::year(run_date))
+  this_week <- tbandothers::get_morbidity_week_number(as.Date(run_date)) %>% tbandothers::get_morbidity_week_info(from_year=lubridate::year(run_date))
 
   global_dates$current_week <- this_week$week
   global_dates$current_dateshard <- global_dates$run_date - lubridate::days(lubridate::wday(global_dates$run_date) - 6)
