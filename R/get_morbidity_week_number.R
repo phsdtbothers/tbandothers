@@ -9,7 +9,7 @@
 #' @import googlesheets4
 #'
 #' @export
-get_morbidity_week <- function(dates) {
+get_morbidity_week_number <- function(dates) {
   # authorize and read function
   if (!googlesheets4::gs4_has_token()) {
     googlesheets4::gs4_auth(scopes='https://www.googleapis.com/auth/spreadsheets.readonly')
