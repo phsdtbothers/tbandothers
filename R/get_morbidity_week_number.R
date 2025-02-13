@@ -15,7 +15,7 @@ get_morbidity_week_number <- function(dates) {
     googlesheets4::gs4_auth(scopes='https://www.googleapis.com/auth/spreadsheets.readonly')
   }
 
-  morbidity_weeks <- googlesheets4::read_sheet('1lTwxbm96nTffaM0WG77lhpNcqDBlLDQJ3CfQFrWuAmE')
+  morbidity_weeks <- googlesheets4::read_sheet('1lTwxbm96nTffaM0WG77lhpNcqDBlLDQJ3CfQFrWuAmE', sheet_name='morbidity_weeks')
 
   morbidity_weeks <- morbidity_weeks %>% mutate(
     year = as.numeric(year),
