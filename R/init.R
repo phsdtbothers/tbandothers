@@ -1,5 +1,11 @@
-# initializes Google Sheets connection
-googlesheets4::gs4_auth(scopes='https://www.googleapis.com/auth/spreadsheets.readonly')
+# initialize BigQuery connection; requests authorization key input
+bigrquery::bq_auth()
+
+# initialize Google Drive connection
+googledrive::drive_auth()
+
+# initialize Google Sheets connection
+googlesheets4::gs4_auth()
 
 # read morbidity week Google Sheet
 morbidity_weeks <- googlesheets4::read_sheet('1lTwxbm96nTffaM0WG77lhpNcqDBlLDQJ3CfQFrWuAmE', sheet='morbidity_weeks')
