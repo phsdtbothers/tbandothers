@@ -1,3 +1,6 @@
+#' @import bigrquery
+#' @import googledrive
+#' @import googlesheets4
 .onLoad <- function(libname, pkgname) {
   # initialize BigQuery connection; requests authorization key input
   bigrquery::bq_auth()
