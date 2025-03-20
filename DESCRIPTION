@@ -11,7 +11,5 @@ RoxygenNote: 7.3.2
 Imports: 
     bigrquery,
     dplyr,
-    googledrive,
-    googlesheets4,
     lubridate,
     magrittr
