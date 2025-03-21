@@ -4,6 +4,7 @@
 #' @export
 #'
 #' @import dplyr
+#' @import lubridate
 deduplicate_hfmd <- function(cases_new, cases_prev, run_date = Sys.Date()) {
   # --- PRE-PROCESSING ---
   # standardize schema of cases_new to cases_prev
@@ -97,7 +98,8 @@ deduplicate_hfmd <- function(cases_new, cases_prev, run_date = Sys.Date()) {
   cases_all$dup_completeness_max <- NULL
   cases_all$last_modified <- NULL
 
-  # TODO generate case id
+  # generate case id
+  cases_all <- tbandothers::generate_case_id(cases_all, 'HFMD')
 
   return(cases_all)
 }
