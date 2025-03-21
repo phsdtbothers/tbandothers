@@ -4,7 +4,7 @@
 \alias{deduplicate_hfmd}
 \title{Title}
 \usage{
-deduplicate_hfmd()
+deduplicate_hfmd(cases_new, cases_prev, run_date = Sys.Date())
 }
 \value{
 final disease dataframe

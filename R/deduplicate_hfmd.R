@@ -4,13 +4,16 @@
 #' @export
 #'
 #' @import dplyr
-deduplicate_hfmd <- function() {
-  # cases_new <- test_dedup_2
-  cases_new$is_new <- 'Y'
-  # cases_new$last_modified <- as.Date("2000-01-01") + sample(0:10000, 50)
+deduplicate_hfmd <- function(cases_new, cases_prev, run_date = Sys.Date()) {
+  # --- PRE-PROCESSING ---
+  # get last week info (for point reference)
+  this_week <- tbandothers::get_global_dates(run_date)
 
-  # get latest line list (only required rows)
-  # cases_prev <- test_dedup_1
+  # set is_new for new cases
+  cases_new$case_id <- NA
+  cases_new$is_new <- 'Y'
+
+  # get latest line list (only required rows); and reset is_new
   cases_prev$is_new <- 'N'
 
   # merge line lists
@@ -24,20 +27,17 @@ deduplicate_hfmd <- function() {
     gsub('(\\W|\\s+)', '', cases_all$last_name)
   )
 
+  # --- DUPLICATE HANDLING ---
+  # get points for row completeness
+  cases_all$dup_completeness <- (rowSums(!is.na(cases_all)) / ncol(cases_all))
+
   # get points per requirement, higher the points, the higher the priority to keep
   cases_all$dup_points <- 0
 
-  # ... if last_modified = latest (+1)
-  cases_all$dup_points <- ifelse(
-    is.na(cases_all$last_modified),
-    cases_all$dup_points,
-    cases_all$dup_points + (as.numeric(min(cases_all$last_modified, na.rm=TRUE) - cases_all$last_modified) / as.numeric(min(cases_all$last_modified, na.rm=TRUE) - max(cases_all$last_modified, na.rm=TRUE)))
-  )
-
-  # ... if is_new = 'Y' (+1)
+  # ... if is_new = 'Y', get points based time since last modified and run date (+0-1)
   cases_all$dup_points <- ifelse(
     cases_all$is_new == 'Y',
-    cases_all$dup_points + 1,
+    cases_all$dup_points + (as.numeric(this_week$previous_start - cases_all$last_modified) / as.numeric(this_week$previous_start - min(cases_all$last_modified, na.rm=TRUE))),
     cases_all$dup_points
   )
 
@@ -55,12 +55,14 @@ deduplicate_hfmd <- function() {
     cases_all$dup_points
   )
 
-  # only include highest points
+  # --- DUPLICATE SIMPLIFYING ---
+  # only include highest points and completeness
   # ... compile highest dup_points
   cases_points <- cases_all %>%
     dplyr::group_by(dup_id) %>%
     dplyr::summarise(
-      dup_points_max = max(dup_points)
+      dup_points_max = max(dup_points),
+      dup_completeness_max = max(dup_completeness)
     )
 
   # ... merge to same dataframe for easy access
@@ -69,17 +71,20 @@ deduplicate_hfmd <- function() {
 
   # ... filter table per dup_id and dup_points
   cases_all <- cases_all %>%
-    dplyr::filter(cases_all$dup_points == cases_all$dup_points_max)
+    dplyr::mutate(dup_points_match = dup_points == dup_points_max) %>%
+    dplyr::mutate(dup_completeness_match = dup_completeness == dup_completeness_max) %>%
+    dplyr::filter(dup_points_match) %>%
+    dplyr::filter(dup_completeness_match)
 
-  # TODO generate case id when null
+  # --- FINALIZATION ---
+  # remove unneeded columns
+  cases_all$dup_id <- NULL
+  cases_all$dup_points <- NULL
+  cases_all$dup_points_max <- NULL
+  cases_all$dup_completeness <- NULL
+  cases_all$dup_completeness_max <- NULL
 
+  # TODO generate case id
+
+  return(cases_all)
 }
-
-# query <- 'SELECT * FROM `hfmd_source.30_hfmd_latest` LIMIT 100'
-# output <- bigrquery::bq_table_download(bigrquery::bq_project_query('doh-covid-dwh', query))
-# test_dedup_1 <- output %>% slice_tail(n=50)
-# test_dedup_2 <- output %>% slice_tail(n=50)
-# #
-# test_dedup_2$case_id <- NA
-
-
