@@ -14,7 +14,7 @@ deduplicate_hfmd <- function(cases_new, cases_prev, run_date = Sys.Date()) {
     cases_new[[col]] <- NA
   }
 
-  cases_new <- cases_new[, names(hfmd_latest)]
+  cases_new <- cases_new[, c('last_modified', names(hfmd_latest))]
 
   # get last week info (for point reference)
   this_week <- tbandothers::get_global_dates(run_date)
@@ -87,12 +87,13 @@ deduplicate_hfmd <- function(cases_new, cases_prev, run_date = Sys.Date()) {
     dplyr::filter(dup_completeness_match)
 
   # --- FINALIZATION ---
-  # remove unneeded columns
+  # remove temporary deduplication columns
   cases_all$dup_id <- NULL
   cases_all$dup_points <- NULL
   cases_all$dup_points_max <- NULL
   cases_all$dup_completeness <- NULL
   cases_all$dup_completeness_max <- NULL
+  cases_all$last_modified <- NULL
 
   # TODO generate case id
 
