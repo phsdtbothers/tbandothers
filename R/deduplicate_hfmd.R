@@ -8,14 +8,14 @@
 deduplicate_hfmd <- function(cases_new, cases_prev, run_date = Sys.Date()) {
   # --- PRE-PROCESSING ---
   # standardize schema of cases_new to cases_prev
-  hfmd_cols_same <- lubridate::intersect(names(cases_prev), names(cases_new))
-  hfmd_cols_diff <- lubridate::setdiff(names(cases_prev), names(cases_new))
+  cols_same <- lubridate::intersect(names(cases_prev), names(cases_new))
+  cols_diff <- lubridate::setdiff(names(cases_prev), names(cases_new))
 
-  for (col in hfmd_cols_diff) {
+  for (col in cols_diff) {
     cases_new[[col]] <- NA
   }
 
-  cases_new <- cases_new[, c('last_modified', names(hfmd_latest))]
+  cases_new <- cases_new[, c('last_modified', names(cases_prev))]
 
   # get last week info (for point reference)
   this_week <- tbandothers::get_global_dates(run_date)
