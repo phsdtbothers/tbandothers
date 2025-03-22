@@ -98,6 +98,9 @@ deduplicate_hfmd <- function(cases_new, cases_prev, run_date = Sys.Date()) {
   cases_all$dup_completeness_max <- NULL
   cases_all$last_modified <- NULL
 
+  # ... get distinct rows only
+  cases_all <- cases_all %>% dplyr::distinct()
+
   # generate case id
   cases_all <- tbandothers::generate_case_id(cases_all, 'HFMD')
 
