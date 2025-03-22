@@ -11,9 +11,6 @@
 #' @returns A tibble. This can be then used to call for specific morbidity week info using dplyr::pull()
 #' @export
 get_morbidity_week_info <- function(week_number, from_year=NULL) {
-  # authorize and read google sheet
-  # morbidity_weeks <- tbandothers::read_morbidity_weeks()
-
   # if from_year is not given, then the current year is used
   if (is.null(from_year)) {
     from_year <- lubridate::year(Sys.Date())

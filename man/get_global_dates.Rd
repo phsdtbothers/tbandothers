@@ -13,5 +13,5 @@ get_global_dates(run_date = Sys.Date())
 A data frame containing information regarding the current and previous weeks based on the provided run_date.
 }
 \description{
-Provides week information based on a given date. This contains the morbidity week info for the current week and the previous week. Note that if the week does not end on a friday or a saturday, then the dateshard generated will be the final day of the week.
+Provides week information based on a given date. This contains the morbidity week info for the current week and the previous week, and the date ranges for 1-2 weeks ago, 3-4 weeks ago, and 5-6 weeks ago. Note that if the week does not end on a friday or a saturday, then the dateshard generated will be the final day of the week.
 }

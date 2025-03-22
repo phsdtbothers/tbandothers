@@ -61,4 +61,3 @@ get_global_dates <- function(run_date=Sys.Date()) {
 
   return(global_dates)
 }
-get_global_dates()
