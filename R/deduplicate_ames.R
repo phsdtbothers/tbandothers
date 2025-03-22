@@ -48,7 +48,7 @@ deduplicate_ames <- function(cases_new, cases_prev, run_date = Sys.Date()) {
   # ... if is_new = 'Y', get points based time since last modified and run date (+0-1)
   cases_all$dup_points <- ifelse(
     cases_all$is_new == 'Y',
-    cases_all$dup_points + (as.numeric(this_week$previous_start - cases_all$last_modified) / as.numeric(this_week$previous_start - min(cases_all$last_modified, na.rm=TRUE))),
+    cases_all$dup_points + (as.numeric(this_week$previous_start - cases_all$last_modified) / as.numeric(this_week$previous_start - this_week$previous_end)),
     cases_all$dup_points
   )
 
@@ -73,7 +73,9 @@ deduplicate_ames <- function(cases_new, cases_prev, run_date = Sys.Date()) {
     dplyr::group_by(dup_id) %>%
     dplyr::summarise(
       dup_points_max = max(dup_points),
-      dup_completeness_max = max(dup_completeness)
+      dup_completeness_max = max(dup_completeness),
+      dup_min_onset = min(proxy_onset_date),
+      dup_min_birth = min(birth_date)
     )
 
   # ... merge to same dataframe for easy access
@@ -83,7 +85,9 @@ deduplicate_ames <- function(cases_new, cases_prev, run_date = Sys.Date()) {
   # ... filter table per dup_id and dup_points
   cases_all <- cases_all %>%
     dplyr::filter(dup_points == dup_points_max) %>%
-    dplyr::filter(dup_completeness == dup_completeness_max)
+    dplyr::filter(dup_completeness == dup_completeness_max) %>%
+    dplyr::filter(proxy_onset_date == dup_min_onset) %>%
+    dplyr::filter(birth_date == dup_min_birth)
 
   # --- FINALIZATION ---
   # remove temporary deduplication columns
@@ -94,6 +98,8 @@ deduplicate_ames <- function(cases_new, cases_prev, run_date = Sys.Date()) {
   cases_all$dup_completeness <- NULL
   cases_all$dup_completeness_match <- NULL
   cases_all$dup_completeness_max <- NULL
+  cases_all$dup_min_onset <- NULL
+  cases_all$dup_min_birth <- NULL
   cases_all$last_modified <- NULL
 
   # generate case id
