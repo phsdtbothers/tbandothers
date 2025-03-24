@@ -73,9 +73,7 @@ deduplicate_ames <- function(cases_new, cases_prev, run_date = Sys.Date()) {
     dplyr::group_by(dup_id) %>%
     dplyr::summarise(
       dup_points_max = max(dup_points),
-      dup_completeness_max = max(dup_completeness),
-      dup_min_onset = min(proxy_onset_date),
-      dup_min_birth = min(birth_date)
+      dup_completeness_max = max(dup_completeness)
     )
 
   # ... merge to same dataframe for easy access
@@ -85,9 +83,7 @@ deduplicate_ames <- function(cases_new, cases_prev, run_date = Sys.Date()) {
   # ... filter table per dup_id and dup_points
   cases_all <- cases_all %>%
     dplyr::filter(dup_points == dup_points_max) %>%
-    dplyr::filter(dup_completeness == dup_completeness_max) %>%
-    dplyr::filter(proxy_onset_date == dup_min_onset) %>%
-    dplyr::filter(birth_date == dup_min_birth)
+    dplyr::filter(dup_completeness == dup_completeness_max)
 
   # --- FINALIZATION ---
   # remove temporary deduplication columns
@@ -98,13 +94,10 @@ deduplicate_ames <- function(cases_new, cases_prev, run_date = Sys.Date()) {
   cases_all$dup_completeness <- NULL
   cases_all$dup_completeness_match <- NULL
   cases_all$dup_completeness_max <- NULL
-  cases_all$dup_min_onset <- NULL
-  cases_all$dup_min_birth <- NULL
   cases_all$last_modified <- NULL
 
   # ... get distinct rows only
   cases_all <- cases_all %>% dplyr::distinct()
-
 
   # generate case id
   cases_all <- tbandothers::generate_case_id(cases_all, 'AMES')
