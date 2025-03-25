@@ -4,7 +4,7 @@
 \alias{get_population}
 \title{Gets the FHSIS population estimate given the year, region, and province/HUC.}
 \usage{
-get_population(to_year, to_region, to_provcity)
+get_population(to_year, to_region, to_provcity, population = NULL)
 }
 \arguments{
 \item{to_year}{year of population estimates}
@@ -12,9 +12,11 @@ get_population(to_year, to_region, to_provcity)
 \item{to_region}{region of population estimates}
 
 \item{to_provcity}{province/HUC of population estimates}
+
+\item{population}{Optional. Population reference from tbandothers::download_populations. To be used to skip downloading per use.}
 }
 \value{
-integer of popoulation
+integer of population
 }
 \description{
 Gets the FHSIS population estimate given the year, region, and province/HUC.
