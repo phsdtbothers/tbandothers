@@ -4,12 +4,18 @@
 \alias{get_morbidity_week_start}
 \title{Gets the first date of a given morbidity week.}
 \usage{
-get_morbidity_week_start(week_number, from_year = NULL)
+get_morbidity_week_start(
+  week_number,
+  from_year = lubridate::year(Sys.Date()),
+  morbidity_weeks = NULL
+)
 }
 \arguments{
 \item{week_number}{Desired week number.}
 
 \item{from_year}{Optional. Which year's morbidity week calendar to reference. If not provided, then the current year is used.}
+
+\item{morbidity_weeks}{Optional. Morbidity week reference from tbandothers::download_morbidity_weeks. To be used to skip downloading per use.}
 }
 \value{
 Date

@@ -3,10 +3,16 @@
 #' Provides week information based on a given date. This contains the morbidity week info for the current week and the previous week, and the date ranges for 1-2 weeks ago, 3-4 weeks ago, and 5-6 weeks ago. Note that if the week does not end on a friday or a saturday, then the dateshard generated will be the final day of the week.
 #'
 #' @param run_date Optional. The date that the code will base the output on. If not given, then the current date will be used.
+#' @param morbidity_weeks Optional. Morbidity week reference from tbandothers::download_morbidity_weeks. To be used to skip downloading per use.
 #'
 #' @returns A data frame containing information regarding the current and previous weeks based on the provided run_date.
 #' @export
-get_global_dates <- function(run_date=Sys.Date()) {
+get_global_dates <- function(run_date=Sys.Date(), morbidity_weeks=NULL) {
+  # if morbidity_weeks is not given, then download
+  if (is.null(morbidity_weeks)) {
+    morbidity_weeks <- tbandothers::download_morbidity_weeks()
+  }
+
   run_date <- as.Date(run_date)
 
   global_dates <- data.frame(
@@ -15,7 +21,7 @@ get_global_dates <- function(run_date=Sys.Date()) {
   )
 
   # generate info for current week
-  this_week <- tbandothers::get_morbidity_week_number(as.Date(run_date)) %>% tbandothers::get_morbidity_week_info(from_year=lubridate::year(run_date))
+  this_week <- tbandothers::get_morbidity_week_number(as.Date(run_date), morbidity_weeks=morbidity_weeks) %>% tbandothers::get_morbidity_week_info(from_year=lubridate::year(run_date), morbidity_weeks=morbidity_weeks)
 
   global_dates$current_week <- this_week$week
   global_dates$current_start <- this_week$start
@@ -28,7 +34,7 @@ get_global_dates <- function(run_date=Sys.Date()) {
 
   # generate info for previous week
   last_week <- this_week$start - 7
-  last_week <- tbandothers::get_morbidity_week_number(last_week) %>% tbandothers::get_morbidity_week_info(from_year=lubridate::year(last_week))
+  last_week <- tbandothers::get_morbidity_week_number(last_week, morbidity_weeks=morbidity_weeks) %>% tbandothers::get_morbidity_week_info(from_year=lubridate::year(last_week), morbidity_weeks=morbidity_weeks)
 
   global_dates$previous_week <- last_week$week
   global_dates$previous_start <- last_week$start
@@ -46,11 +52,11 @@ get_global_dates <- function(run_date=Sys.Date()) {
   weeks_ago_5 <- this_week$start - 35
   weeks_ago_6 <- this_week$start - 42
 
-  weeks_ago_2 <- tbandothers::get_morbidity_week_number(weeks_ago_2) %>% tbandothers::get_morbidity_week_info(from_year=lubridate::year(weeks_ago_2))
-  weeks_ago_3 <- tbandothers::get_morbidity_week_number(weeks_ago_3) %>% tbandothers::get_morbidity_week_info(from_year=lubridate::year(weeks_ago_3))
-  weeks_ago_4 <- tbandothers::get_morbidity_week_number(weeks_ago_4) %>% tbandothers::get_morbidity_week_info(from_year=lubridate::year(weeks_ago_4))
-  weeks_ago_5 <- tbandothers::get_morbidity_week_number(weeks_ago_5) %>% tbandothers::get_morbidity_week_info(from_year=lubridate::year(weeks_ago_5))
-  weeks_ago_6 <- tbandothers::get_morbidity_week_number(weeks_ago_6) %>% tbandothers::get_morbidity_week_info(from_year=lubridate::year(weeks_ago_6))
+  weeks_ago_2 <- tbandothers::get_morbidity_week_number(weeks_ago_2, morbidity_weeks=morbidity_weeks) %>% tbandothers::get_morbidity_week_info(from_year=lubridate::year(weeks_ago_2), morbidity_weeks=morbidity_weeks)
+  weeks_ago_3 <- tbandothers::get_morbidity_week_number(weeks_ago_3, morbidity_weeks=morbidity_weeks) %>% tbandothers::get_morbidity_week_info(from_year=lubridate::year(weeks_ago_3), morbidity_weeks=morbidity_weeks)
+  weeks_ago_4 <- tbandothers::get_morbidity_week_number(weeks_ago_4, morbidity_weeks=morbidity_weeks) %>% tbandothers::get_morbidity_week_info(from_year=lubridate::year(weeks_ago_4), morbidity_weeks=morbidity_weeks)
+  weeks_ago_5 <- tbandothers::get_morbidity_week_number(weeks_ago_5, morbidity_weeks=morbidity_weeks) %>% tbandothers::get_morbidity_week_info(from_year=lubridate::year(weeks_ago_5), morbidity_weeks=morbidity_weeks)
+  weeks_ago_6 <- tbandothers::get_morbidity_week_number(weeks_ago_6, morbidity_weeks=morbidity_weeks) %>% tbandothers::get_morbidity_week_info(from_year=lubridate::year(weeks_ago_6), morbidity_weeks=morbidity_weeks)
 
   global_dates$weeks_ago_1_2_start <- weeks_ago_2$start
   global_dates$weeks_ago_1_2_end <- global_dates$previous_end
