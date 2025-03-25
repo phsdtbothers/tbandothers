@@ -27,7 +27,7 @@ adjust_morbidity_week <- function(dates, to_year, morbidity_weeks=NULL) {
   adjusted_dates$dates <- as.Date(ISOdate(to_year, adjusted_dates$month, adjusted_dates$day))
 
   # run get_morbidity_week function with generated dates
-  adjusted_morbidity_weeks <- tbandothers::get_morbidity_week_number(adjusted_dates$dates)
+  adjusted_morbidity_weeks <- tbandothers::get_morbidity_week_number(adjusted_dates$dates, morbidity_weeks = morbidity_weeks)
 
   return(adjusted_morbidity_weeks)
 }
