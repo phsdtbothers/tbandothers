@@ -48,7 +48,7 @@ deduplicate_hfmd <- function(cases_new, cases_prev, run_date = Sys.Date()) {
   # ... if is_new = 'Y', get points based time since last modified and run date (+0-1)
   cases_all$dup_points <- ifelse(
     cases_all$is_new == 'Y',
-    cases_all$dup_points + (as.numeric(this_week$previous_start - cases_all$last_modified) / as.numeric(this_week$previous_start - min(cases_all$last_modified, na.rm=TRUE))),
+    cases_all$dup_points + (as.numeric(this_week$previous_start - cases_all$last_modified) / as.numeric(this_week$previous_start - this_week$previous_end)),
     cases_all$dup_points
   )
 
@@ -97,6 +97,10 @@ deduplicate_hfmd <- function(cases_new, cases_prev, run_date = Sys.Date()) {
   cases_all$dup_completeness_match <- NULL
   cases_all$dup_completeness_max <- NULL
   cases_all$last_modified <- NULL
+
+  # ... get distinct rows only
+  cases_all <- cases_all %>% dplyr::distinct()
+
 
   # generate case id
   cases_all <- tbandothers::generate_case_id(cases_all, 'HFMD')

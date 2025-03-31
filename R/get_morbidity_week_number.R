@@ -1,6 +1,7 @@
 #' Gets morbidity week of either a single date, or a vector of dates.
 #'
 #' @param dates A single date, or vector of dates which we get the morbidity week/s for.
+#' @param morbidity_weeks Optional. Morbidity week reference from tbandothers::download_morbidity_weeks. To be used to skip downloading per use.
 #'
 #' @returns If single date, then integer of morbidity week of said date. If vector of dates, then vector of morbidity weeks of said dates.
 #'
@@ -8,9 +9,11 @@
 #' @import magrittr
 #'
 #' @export
-get_morbidity_week_number <- function(dates) {
-  # authorize and read google sheet
-  # morbidity_weeks <- tbandothers::read_morbidity_weeks()
+get_morbidity_week_number <- function(dates, morbidity_weeks = NULL) {
+  # if morbidity_weeks is not given, then download
+  if (is.null(morbidity_weeks)) {
+    morbidity_weeks <- tbandothers::download_morbidity_weeks()
+  }
 
   # get week number from date/dates
   from_dates <- data.frame(dates=as.Date(dates))

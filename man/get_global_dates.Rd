@@ -4,14 +4,16 @@
 \alias{get_global_dates}
 \title{Provides week information based on a given date.}
 \usage{
-get_global_dates(run_date = Sys.Date())
+get_global_dates(run_date = Sys.Date(), morbidity_weeks = NULL)
 }
 \arguments{
 \item{run_date}{Optional. The date that the code will base the output on. If not given, then the current date will be used.}
+
+\item{morbidity_weeks}{Optional. Morbidity week reference from tbandothers::download_morbidity_weeks. To be used to skip downloading per use.}
 }
 \value{
 A data frame containing information regarding the current and previous weeks based on the provided run_date.
 }
 \description{
-Provides week information based on a given date. This contains the morbidity week info for the current week and the previous week. Note that if the week does not end on a friday or a saturday, then the dateshard generated will be the final day of the week.
+Provides week information based on a given date. This contains the morbidity week info for the current week and the previous week, and the date ranges for 1-2 weeks ago, 3-4 weeks ago, and 5-6 weeks ago. Note that if the week does not end on a friday or a saturday, then the dateshard generated will be the final day of the week.
 }
