@@ -5,6 +5,7 @@
 #'
 #' @import magrittr
 #' @import stringr
+#' @import dplyr
 #' @import purrr
 #' @import phonics
 #'
