@@ -4,12 +4,14 @@
 \alias{adjust_morbidity_week}
 \title{Gets the morbidity weeks of a date or dates adjusted to a provided year.}
 \usage{
-adjust_morbidity_week(dates, to_year)
+adjust_morbidity_week(dates, to_year, morbidity_weeks = NULL)
 }
 \arguments{
 \item{dates}{Either a date or a vector of dates.}
 
 \item{to_year}{The year that the years are based on.}
+
+\item{morbidity_weeks}{Optional. Morbidity week reference from tbandothers::download_morbidity_weeks. To be used to skip downloading per use.}
 }
 \value{
 A vector of morbidity weeks adjusted to provided year.

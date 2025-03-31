@@ -4,12 +4,18 @@
 \alias{get_morbidity_week_info}
 \title{Gets the Start and End of a given Morbidity Week}
 \usage{
-get_morbidity_week_info(week_number, from_year = NULL)
+get_morbidity_week_info(
+  week_number,
+  from_year = lubridate::year(Sys.Date()),
+  morbidity_weeks = NULL
+)
 }
 \arguments{
 \item{week_number}{Week number of desired morbidity week.}
 
 \item{from_year}{Optional. Year for what morbidity week calendar to use. If not given, then the current year is used.}
+
+\item{morbidity_weeks}{Optional. Morbidity week reference from tbandothers::download_morbidity_weeks. To be used to skip downloading per use.}
 }
 \value{
 A tibble. This can be then used to call for specific morbidity week info using dplyr::pull()

@@ -4,11 +4,11 @@ check_soundex_match_df <- function(df, column_name, target_word) {
   soundex <- function(x) {
     sapply(x, function(word) {
       word <- toupper(word)
-      soundex_code <- substr(word, 1, 1)
+      soundex_code <- stringr::substr(word, 1, 1)
       word <- gsub("[^A-Z]", "", word)  # Remove non-alphabetical characters
       if (nchar(word) > 1) {
-        word <- gsub("[AEIOUHWY]", "", substr(word, 2, nchar(word)))  # Remove vowels
-        soundex_code <- paste0(soundex_code, substr(word, 1, 3))
+        word <- gsub("[AEIOUHWY]", "", stringr::substr(word, 2, nchar(word)))  # Remove vowels
+        soundex_code <- paste0(soundex_code, stringr::substr(word, 1, 3))
       }
       soundex_code
     })
@@ -18,13 +18,13 @@ check_soundex_match_df <- function(df, column_name, target_word) {
   cleaned_column <- gsub("[^A-Za-z]", " ", df[[column_name]])
 
   # Split the column into words
-  words_list <- strsplit(cleaned_column, " ")
+  words_list <- stringr::strsplit(cleaned_column, " ")
 
   # Apply Soundex to each word in each row of the column
   soundex_words_list <- lapply(words_list, soundex)
 
   # Compute the Soundex for the target word
-  soundex_target <- soundex(c(target_word))
+  soundex_target <- phonics::soundex(c(target_word))
 
   # Find matching Soundex words for each row
   matching_sounds <- sapply(soundex_words_list, function(words) {
