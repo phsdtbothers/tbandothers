@@ -10,6 +10,7 @@
 #' @import phonics
 #'
 #' @returns Vector of booleans, for search output from strings_vector
+#' @export
 check_soundex_match <- function(strings_vector, target_word) {
   # clean words
   strings <- dplyr::tibble(
