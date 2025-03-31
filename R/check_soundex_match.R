@@ -34,5 +34,5 @@ check_soundex_match <- function(strings_vector, target_word) {
       words_soundex_in = stringr::str_detect(words_soundex, phonics::soundex(target_word)) | stringr::str_detect(words, paste0('(\\s|^|\\W)', target_word, '(\\s|$|\\W)'))
     )
 
-  return(strings %>% pull(words_soundex_in))
+  return(strings %>% pull(words_soundex_in) %>% tidyr::replace_na(FALSE))
 }
