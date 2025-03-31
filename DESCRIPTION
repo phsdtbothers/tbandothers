@@ -13,4 +13,7 @@ Imports:
     bigrquery,
     dplyr,
     lubridate,
-    magrittr
+    magrittr,
+    phonics,
+    purrr,
+    stringr
