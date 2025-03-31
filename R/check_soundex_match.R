@@ -30,8 +30,8 @@ check_soundex_match <- function(strings_vector, target_word) {
   strings <- strings %>%
     dplyr::mutate(
       words_split = strsplit(words, ' '),
-      words_soundex = purrr::map_chr(words_split, ~ paste(phonics::soundex(.), collapse=' ')),
-      words_soundex_in = stringr::str_detect(words_soundex, phonics::soundex(target_word)) | stringr::str_detect(words, paste0('(\\s|^|\\W)', target_word, '(\\s|$|\\W)'))
+      words_soundex = purrr::map_chr(words_split, ~ paste(phonics::soundex(., maxCodeLen=10L), collapse=' ')),
+      words_soundex_in = stringr::str_detect(words_soundex, phonics::soundex(target_word, maxCodeLen=10L)) | stringr::str_detect(words, paste0('(\\s|^|\\W)', target_word, '(\\s|$|\\W)'))
     )
 
   return(strings %>% pull(words_soundex_in) %>% tidyr::replace_na(FALSE))
