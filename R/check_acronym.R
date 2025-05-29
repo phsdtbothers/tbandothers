@@ -20,5 +20,5 @@ check_acronym <- function(strings_vector, target_acronym) {
 
   regexp_code <- paste0('(\\s|^|\\W)', acronym_code, '(|.)(\\s|$|\\W)')
 
-  return(stringr::str_detect(strings_vector, regexp_code))
+  return(stringr::str_detect(strings_vector, regexp_code) %>% tidyr::replace_na(FALSE))
 }
