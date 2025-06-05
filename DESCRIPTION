@@ -1,6 +1,6 @@
 Package: tbandothers
 Title: TB and Others Helper Package
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: 
     person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
@@ -16,4 +16,5 @@ Imports:
     magrittr,
     phonics,
     purrr,
-    stringr
+    stringr,
+    tidyr
