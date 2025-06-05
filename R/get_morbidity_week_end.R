@@ -15,7 +15,7 @@ get_morbidity_week_end <- function(week_number, from_year=lubridate::year(Sys.Da
     morbidity_weeks <- tbandothers::download_morbidity_weeks()
   }
 
-  mw_start <- get_morbidity_week_info(week_number, from_year)
+  mw_start <- tbandothers::get_morbidity_week_info(week_number, from_year, morbidity_weeks = morbidity_weeks)
 
   return(mw_start %>% dplyr::pull(end) %>% as.Date())
 }
