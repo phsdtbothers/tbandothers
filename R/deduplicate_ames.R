@@ -62,6 +62,13 @@ deduplicate_ames <- function(cases_new, cases_prev, run_date = Sys.Date(), morbi
     cases_all$dup_points
   )
 
+  # ... if tested, gets most recent test date (+0-1)
+  cases_all$dup_points <- ifelse(
+    !is.na(cases_all$date_specimencollected),
+    cases_all$dup_points + (1 - (as.numeric(this_week$previous_start - cases_all$date_specimencollected) / 365)),
+    cases_all$dup_points
+  )
+
   # ... if disease_classification = confirmed (+5)
   cases_all$dup_points <- ifelse(
     grepl('CONFIRMED', cases_all$disease_classification, fixed=TRUE),
