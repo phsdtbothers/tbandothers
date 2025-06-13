@@ -5,7 +5,13 @@
 #'
 #' @import dplyr
 #' @import lubridate
-deduplicate_ames <- function(cases_new, cases_prev, run_date = Sys.Date()) {
+#' @import stringr
+deduplicate_ames <- function(cases_new, cases_prev, run_date = Sys.Date(), morbidity_weeks=NULL) {
+  # if morbidity_weeks is not given, then download
+  if (is.null(morbidity_weeks)) {
+    morbidity_weeks <- tbandothers::download_morbidity_weeks()
+  }
+
   # --- PRE-PROCESSING ---
   # standardize schema of cases_new to cases_prev
   cols_same <- lubridate::intersect(names(cases_prev), names(cases_new))
@@ -18,7 +24,7 @@ deduplicate_ames <- function(cases_new, cases_prev, run_date = Sys.Date()) {
   cases_new <- cases_new[, c('last_modified', names(cases_prev))]
 
   # get last week info (for point reference)
-  this_week <- tbandothers::get_global_dates(run_date)
+  this_week <- tbandothers::get_global_dates(run_date, morbidity_weeks = morbidity_weeks)
 
   # set is_new for new cases
   cases_new$case_id <- NA
@@ -31,6 +37,7 @@ deduplicate_ames <- function(cases_new, cases_prev, run_date = Sys.Date()) {
   cases_all <- dplyr::bind_rows(cases_new, cases_prev)
 
   # group by names, proxy_onset_date, birth date
+  # !! ALWAYS INCLUDE proxy_onset_date FOR PROPER CASE DETECTION
   cases_all$dup_id <- paste0(
     format(cases_all$proxy_onset_date, '%Y%m%d'),
     format(cases_all$birth_date, '%Y%m%d'),
@@ -39,6 +46,9 @@ deduplicate_ames <- function(cases_new, cases_prev, run_date = Sys.Date()) {
   )
 
   # --- DUPLICATE HANDLING ---
+  # gets years integer value of case_id (for case_id generation to prioritize previously generated case_ids)
+  cases_all$dup_case_id <- stringr::str_sub(cases_all$case_id, -7) %>% as.integer()
+
   # get points for row completeness
   cases_all$dup_completeness <- (rowSums(!is.na(cases_all)) / ncol(cases_all))
 
@@ -68,17 +78,28 @@ deduplicate_ames <- function(cases_new, cases_prev, run_date = Sys.Date()) {
 
   # --- DUPLICATE SIMPLIFYING ---
   # only include highest points and completeness
-  # ... compile highest dup_points
+  # ... compile highest dup_points, completeness, and lowest case_id
   cases_points <- cases_all %>%
     dplyr::group_by(dup_id) %>%
     dplyr::summarise(
       dup_points_max = max(dup_points),
-      dup_completeness_max = max(dup_completeness)
+      dup_completeness_max = max(dup_completeness),
+      dup_case_id_min = min(dup_case_id)
     )
 
   # ... merge to same dataframe for easy access
   cases_all <- cases_all %>%
     dplyr::left_join(cases_points, by='dup_id')
+
+  # ... set case_id to lowest dup_case_id (to retain case_id of earliest duplicate)
+  cases_all <- cases_all %>%
+    mutate(
+      case_id = ifelse(
+        is.na(case_id) & !is.na(dup_case_id_min), # no case id, but previous case_id found
+        paste0('AMES-PHL-', sprintf('%07d', dup_case_id_min)),
+        case_id
+      )
+    )
 
   # ... filter table per dup_id and dup_points
   cases_all <- cases_all %>%
@@ -88,6 +109,8 @@ deduplicate_ames <- function(cases_new, cases_prev, run_date = Sys.Date()) {
   # --- FINALIZATION ---
   # remove temporary deduplication columns
   cases_all$dup_id <- NULL
+  cases_all$dup_case_id <- NULL
+  cases_all$dup_case_id_min <- NULL
   cases_all$dup_points <- NULL
   cases_all$dup_points_match <- NULL
   cases_all$dup_points_max <- NULL

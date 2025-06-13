@@ -4,7 +4,12 @@
 \alias{deduplicate_ames}
 \title{Title}
 \usage{
-deduplicate_ames(cases_new, cases_prev, run_date = Sys.Date())
+deduplicate_ames(
+  cases_new,
+  cases_prev,
+  run_date = Sys.Date(),
+  morbidity_weeks = NULL
+)
 }
 \value{
 final disease dataframe
