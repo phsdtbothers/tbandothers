@@ -67,18 +67,32 @@ deduplicate_hfmd <- function(cases_new, cases_prev, run_date = Sys.Date()) {
   )
 
   # --- DUPLICATE SIMPLIFYING ---
+  # gets years integer value of case_id (for case_id generation to prioritize previously generated case_ids)
+  cases_all$dup_case_id <- stringr::str_sub(cases_all$case_id, -7) %>% as.integer()
+
   # only include highest points and completeness
   # ... compile highest dup_points
   cases_points <- cases_all %>%
     dplyr::group_by(dup_id) %>%
     dplyr::summarise(
       dup_points_max = max(dup_points),
-      dup_completeness_max = max(dup_completeness)
+      dup_completeness_max = max(dup_completeness),
+      dup_case_id_min = min(dup_case_id)
     )
 
   # ... merge to same dataframe for easy access
   cases_all <- cases_all %>%
     dplyr::left_join(cases_points, by='dup_id')
+
+  # ... set case_id to lowest dup_case_id (to retain case_id of earliest duplicate)
+  cases_all <- cases_all %>%
+    mutate(
+      case_id = ifelse(
+        is.na(case_id) & !is.na(dup_case_id_min), # no case id, but previous case_id found
+        paste0('HFMD-PHL-', lubridate::year(proxy_onset_date), '-', sprintf('%07d', dup_case_id_min)),
+        case_id
+      )
+    )
 
   # ... filter table per dup_id and dup_points
   cases_all <- cases_all %>%
