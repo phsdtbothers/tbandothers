@@ -104,6 +104,8 @@ deduplicate_hfmd <- function(cases_new, cases_prev, run_date = Sys.Date()) {
   # --- FINALIZATION ---
   # remove temporary deduplication columns
   cases_all$dup_id <- NULL
+  cases_all$dup_case_id <- NULL
+  cases_all$dup_case_id_min <- NULL
   cases_all$dup_points <- NULL
   cases_all$dup_points_match <- NULL
   cases_all$dup_points_max <- NULL
