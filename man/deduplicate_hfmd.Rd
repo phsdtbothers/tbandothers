@@ -12,8 +12,6 @@ deduplicate_hfmd(cases_new, cases_prev, run_date = Sys.Date())
 \item{cases_prev}{required, line list containing cases from previous weeks}
 
 \item{run_date}{optional, gets system date if not provided}
-
-\item{morbidity_weeks}{optional, downloads morbidity week reference if not provided}
 }
 \value{
 final disease dataframe
