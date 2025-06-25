@@ -8,6 +8,7 @@
 #'
 #' @import lubridate
 #' @import magrittr
+#' @import dplyr
 #'
 #' @returns A tibble. This can be then used to call for specific morbidity week info using dplyr::pull()
 #' @export
@@ -18,7 +19,7 @@ get_morbidity_week_info <- function(week_number, from_year=lubridate::year(Sys.D
   }
 
   # filter and return morbidity week dataframe using arguments
-  morbidity_week_info <- morbidity_weeks %>% filter(year==from_year, week==week_number)
+  morbidity_week_info <- morbidity_weeks %>% dplyr::filter(year==from_year, week==week_number)
 
   return(head(morbidity_week_info, 1))
 }
