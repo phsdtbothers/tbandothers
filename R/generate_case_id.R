@@ -1,4 +1,11 @@
-#' Title
+#' Generates case ids for diseases
+#'
+#' Generates unique case ids for any disease line list, based on disease argument. Populates NA case_ids with unique case_ids based on previously generated case ids.
+#'
+#' Current format: "(DISEASE CODE)-PHL-(YEAR)-(UNIQUE NUMBER FOR YEAR, UP TO 7 DIGITS)"
+#'
+#' @param linelist provided linelist, must contain case_id column
+#' @param disease disease code (e.g. 'AMES', 'HFMD')
 #'
 #' @returns dataframe with populated case_id column
 #'
@@ -33,7 +40,7 @@ generate_case_id <- function(linelist, disease) {
     target_max <- case_id_max %>% dplyr::filter(year == target_year) %>% dplyr::pull(case_id_max)
 
     new_max <- target_max + 1
-    new_case_id <- paste0(case_id_format, target_year, '-', sprintf('%06d', new_max))
+    new_case_id <- paste0(case_id_format, target_year, '-', sprintf('%07d', new_max))
 
     linelist_wo_caseid$case_id[idx] <- new_case_id
     case_id_max[which(case_id_max$year == target_year), ]$case_id_max <- new_max

@@ -1,10 +1,17 @@
-#' Title
+#' Deduplicates HFMD cases
+#'
+#' Deduplicates cases based on first name, last name, birthdate, and disease onset date. Prioritizes case definition (prioritizes confirmed), and outcome (prioritizes 'D').
+#'
+#' @param cases_new required, line list for this week
+#' @param cases_prev required, line list containing cases from previous weeks
+#' @param run_date optional, gets system date if not provided
 #'
 #' @returns final disease dataframe
 #' @export
 #'
 #' @import dplyr
 #' @import lubridate
+#' @import stringr
 deduplicate_hfmd <- function(cases_new, cases_prev, run_date = Sys.Date()) {
   # --- PRE-PROCESSING ---
   # standardize schema of cases_new to cases_prev

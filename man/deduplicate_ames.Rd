@@ -2,7 +2,7 @@
 % Please edit documentation in R/deduplicate_ames.R
 \name{deduplicate_ames}
 \alias{deduplicate_ames}
-\title{Title}
+\title{Deduplicates AMES cases}
 \usage{
 deduplicate_ames(
   cases_new,
@@ -11,9 +11,18 @@ deduplicate_ames(
   morbidity_weeks = NULL
 )
 }
+\arguments{
+\item{cases_new}{required, line list for this week}
+
+\item{cases_prev}{required, line list containing cases from previous weeks}
+
+\item{run_date}{optional, gets system date if not provided}
+
+\item{morbidity_weeks}{optional, downloads morbidity week reference if not provided}
+}
 \value{
 final disease dataframe
 }
 \description{
-Title
+Deduplicates cases based on first name, last name, birthdate, and disease onset date. Prioritizes case definition (prioritizes confirmed), outcome (prioritizes 'D'), and latest lab result.
 }

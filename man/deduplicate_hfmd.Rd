@@ -2,13 +2,22 @@
 % Please edit documentation in R/deduplicate_hfmd.R
 \name{deduplicate_hfmd}
 \alias{deduplicate_hfmd}
-\title{Title}
+\title{Deduplicates HFMD cases}
 \usage{
 deduplicate_hfmd(cases_new, cases_prev, run_date = Sys.Date())
+}
+\arguments{
+\item{cases_new}{required, line list for this week}
+
+\item{cases_prev}{required, line list containing cases from previous weeks}
+
+\item{run_date}{optional, gets system date if not provided}
+
+\item{morbidity_weeks}{optional, downloads morbidity week reference if not provided}
 }
 \value{
 final disease dataframe
 }
 \description{
-Title
+Deduplicates cases based on first name, last name, birthdate, and disease onset date. Prioritizes case definition (prioritizes confirmed), and outcome (prioritizes 'D').
 }

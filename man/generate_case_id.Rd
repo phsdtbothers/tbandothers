@@ -2,13 +2,21 @@
 % Please edit documentation in R/generate_case_id.R
 \name{generate_case_id}
 \alias{generate_case_id}
-\title{Title}
+\title{Generates case ids for diseases}
 \usage{
 generate_case_id(linelist, disease)
+}
+\arguments{
+\item{linelist}{provided linelist, must contain case_id column}
+
+\item{disease}{disease code (e.g. 'AMES', 'HFMD')}
 }
 \value{
 dataframe with populated case_id column
 }
 \description{
-Title
+Generates unique case ids for any disease line list, based on disease argument. Populates NA case_ids with unique case_ids based on previously generated case ids.
+}
+\details{
+Current format: "(DISEASE CODE)-PHL-(YEAR)-(UNIQUE NUMBER FOR YEAR, UP TO 7 DIGITS)"
 }

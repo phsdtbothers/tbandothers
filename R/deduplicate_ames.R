@@ -1,4 +1,11 @@
-#' Title
+#' Deduplicates AMES cases
+#'
+#' Deduplicates cases based on first name, last name, birthdate, and disease onset date. Prioritizes case definition (prioritizes confirmed), outcome (prioritizes 'D'), and latest lab result.
+#'
+#' @param cases_new required, line list for this week
+#' @param cases_prev required, line list containing cases from previous weeks
+#' @param run_date optional, gets system date if not provided
+#' @param morbidity_weeks optional, downloads morbidity week reference if not provided
 #'
 #' @returns final disease dataframe
 #' @export

@@ -9,11 +9,12 @@
 #' @returns named vector, sourced from translation google sheet, under provided sheet_name.
 #'
 #' @import googlesheets4
+#' @import stats
 #'
 #' @export
 download_translations <- function(sheet_name) {
   translation <- googlesheets4::read_sheet('12nyuK_Sy8WWCMOGlrwROOCB1koAX5MFFMB_iw5eaIao', sheet=sheet_name)
-  translation <- setNames(translation$translate, translation$raw)
+  translation <- stats::setNames(translation$translate, translation$raw)
 
   return(translation)
 }
