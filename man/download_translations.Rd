@@ -10,7 +10,7 @@ download_translations(sheet_name)
 \item{sheet_name}{Required, sheet name to download}
 }
 \value{
-dataframe, sourced from translation google sheet, under provided sheet_name.
+named vector, sourced from translation google sheet, under provided sheet_name.
 }
 \description{
 Downloads the population reference from Google Sheet, and the given sheet name (acts as individual dictionaries for sorting).
