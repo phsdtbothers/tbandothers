@@ -4,7 +4,10 @@
 \alias{analyze_cases_regions}
 \title{Generate regional analysis facet graph.}
 \usage{
-analyze_cases_regions(linelist_latest, to_path)
+analyze_cases_regions(
+  linelist_latest,
+  to_path = "analyze_cases_regions - Output.png"
+)
 }
 \arguments{
 \item{linelist_latest}{dataframe of disease table (typically uses latest table)}

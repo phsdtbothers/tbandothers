@@ -10,9 +10,10 @@
 #' @import ggplot2
 #' @import here
 #' @import stats
+#' @import scales
 #'
 #' @export
-analyze_cases_regions <- function(linelist_latest, to_path) {
+analyze_cases_regions <- function(linelist_latest, to_path = 'analyze_cases_regions - Output.png') {
   # download translation gsheet, make function for this too
   regions <- tbandothers::download_translations('region')
 

@@ -5,6 +5,12 @@
 #' @param disease_latest latest table- requires proxy_onset_date, adj_mw_...
 #' @param to_path file path for .png
 #'
+#' @import dplyr
+#' @import lubridate
+#' @import ggplot2
+#' @import here
+#' @import stats
+#'
 #' @export
 analyze_cases_annual <- function(disease_latest, to_path = 'analyze_cases_annual - Output.png') {
   mw <- tbandothers::download_morbidity_weeks()
