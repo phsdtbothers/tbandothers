@@ -98,12 +98,25 @@ deduplicate_ames <- function(cases_new, cases_prev, run_date = Sys.Date(), morbi
     dplyr::summarise(
       dup_points_max = max(dup_points),
       dup_completeness_max = max(dup_completeness),
-      dup_case_id_min = min(dup_case_id)
+      dup_case_id_min = min(dup_case_id),
+      dup_has_new = any(is_new == 'Y')
     )
 
   # ... merge to same dataframe for easy access
   cases_all <- cases_all %>%
     dplyr::left_join(cases_points, by='dup_id')
+
+  # ... filter table per dup_id and dup_points
+  cases_all <- cases_all %>%
+    dplyr::filter(dup_points == dup_points_max) %>%
+    dplyr::filter(dup_completeness == dup_completeness_max)
+
+  # --- FINALIZATION ---
+  # ... update is_new
+  cases_all <- cases_all %>%
+    dplyr::mutate(
+      is_new = ifelse(dup_has_new, 'Y', 'N')
+    )
 
   # ... set case_id to lowest dup_case_id (to retain case_id of earliest duplicate)
   cases_all <- cases_all %>%
@@ -115,12 +128,6 @@ deduplicate_ames <- function(cases_new, cases_prev, run_date = Sys.Date(), morbi
       )
     )
 
-  # ... filter table per dup_id and dup_points
-  cases_all <- cases_all %>%
-    dplyr::filter(dup_points == dup_points_max) %>%
-    dplyr::filter(dup_completeness == dup_completeness_max)
-
-  # --- FINALIZATION ---
   # remove temporary deduplication columns
   cases_all$dup_id <- NULL
   cases_all$dup_case_id <- NULL
@@ -128,6 +135,7 @@ deduplicate_ames <- function(cases_new, cases_prev, run_date = Sys.Date(), morbi
   cases_all$dup_points <- NULL
   cases_all$dup_points_match <- NULL
   cases_all$dup_points_max <- NULL
+  cases_all$dup_has_new <- NULL
   cases_all$dup_completeness <- NULL
   cases_all$dup_completeness_match <- NULL
   cases_all$dup_completeness_max <- NULL
